@@ -352,78 +352,77 @@ class Plugin(PluginBase):
                     step_performance_data['cycle_{0}'.format(c)]['pp_step']['enmd_ov_duration'] = {}
                     step_performance_data['cycle_{0}'.format(c)]['pp_step']['enmd_ov_duration'] = ( step_end_time_abs - step_start_time_abs ).total_seconds()
                 
-                #---------------------------------------------------------------    
-    
             #-------------------------------------------------------------------
             # End of simulation loop
             #-------------------------------------------------------------------
-            outfile = "execution_profile_{mysession}.csv".format(mysession=resource._session.uid)
-            with open(outfile, 'w+') as f:
+            if do_profile == '1':
+                outfile = "execution_profile_{mysession}.csv".format(mysession=resource._session.uid)
+                with open(outfile, 'w+') as f:
 
-                head = "Cycle; Step; Start; Stop; Duration"
-                f.write("{row}\n".format(row=head))
+                    head = "Cycle; Step; Start; Stop; Duration"
+                    f.write("{row}\n".format(row=head))
 
-                for cycle in step_performance_data:
-                    for step in step_performance_data[cycle].keys():
-                        dur = step_performance_data[cycle][step]['duration']
-                        start = step_performance_data[cycle][step]['step_start_time_abs']
-                        end = step_performance_data[cycle][step]['step_end_time_abs']
-                        row = "{Cycle}; {Step}; {Start}; {End}; {Duration}".format(
-                            Duration=dur,
-                            Cycle=cycle,
-                            Step=step,
-                            Start=start,
-                            End=end)
-
-                        f.write("{r}\n".format(r=row))
-                        #-------------------------------------------------------
-                        # enmd overhead
-                        dur = step_performance_data[cycle][step]['enmd_ov_duration']
-                        start = step_performance_data[cycle][step]['enmd_ov_step_start_time_abs']
-                        end = step_performance_data[cycle][step]['enmd_ov_step_end_time_abs']
-                        row = "{Cycle}; {Step}; {Start}; {End}; {Duration}".format(
-                            Duration=dur,
-                            Cycle=cycle,
-                            Step=step + "_enmd_overhead",
-                            Start=start,
-                            End=end)
-
-                        f.write("{r}\n".format(r=row))
-
-                #---------------------------------------------------------------
-                head = "CU_ID; Scheduling; StagingInput; Allocating; Executing; StagingOutput; Done; Cycle; Step;"
-                f.write("{row}\n".format(row=head))
-            
-                for cycle in cu_performance_data:
-                    for step in cu_performance_data[cycle].keys():
-                        for cid in cu_performance_data[cycle][step].keys():
-                            cu = cu_performance_data[cycle][step][cid]
-                            st_data = {}
-                            for st in cu.state_history:
-                                st_dict = st.as_dict()
-                                st_data["{0}".format( st_dict["state"] )] = {}
-                                st_data["{0}".format( st_dict["state"] )] = st_dict["timestamp"]
-
-                            #print st_data
-                            #start = step_performance_data[cycle][step]['step_start_time_abs']
-                            if 'StagingOutput' not in st_data:
-                                st_data['StagingOutput'] = st_data['Executing']
-
-                            if 'Done' not in st_data:
-                                st_data['Done'] = st_data['Executing']
-
-                            row = "{uid}; {Scheduling}; {StagingInput}; {Allocating}; {Executing}; {StagingOutput}; {Done}; {Cycle}; {Step}".format(
-                                uid=cu.uid,
-                                Scheduling=(st_data['Scheduling']),
-                                StagingInput=(st_data['StagingInput']),
-                                Allocating=(st_data['Allocating']),
-                                Executing=(st_data['Executing']),
-                                StagingOutput=(st_data['StagingOutput']),
-                                Done=(st_data['Done']),
+                    for cycle in step_performance_data:
+                        for step in step_performance_data[cycle].keys():
+                            dur = step_performance_data[cycle][step]['duration']
+                            start = step_performance_data[cycle][step]['step_start_time_abs']
+                            end = step_performance_data[cycle][step]['step_end_time_abs']
+                            row = "{Cycle}; {Step}; {Start}; {End}; {Duration}".format(
+                                Duration=dur,
                                 Cycle=cycle,
-                                Step=step)
-                        
+                                Step=step,
+                                Start=start,
+                                End=end)
+
                             f.write("{r}\n".format(r=row))
+                            #-------------------------------------------------------
+                            # enmd overhead
+                            dur = step_performance_data[cycle][step]['enmd_ov_duration']
+                            start = step_performance_data[cycle][step]['enmd_ov_step_start_time_abs']
+                            end = step_performance_data[cycle][step]['enmd_ov_step_end_time_abs']
+                            row = "{Cycle}; {Step}; {Start}; {End}; {Duration}".format(
+                                Duration=dur,
+                                Cycle=cycle,
+                                Step=step + "_enmd_overhead",
+                                Start=start,
+                                End=end)
+
+                            f.write("{r}\n".format(r=row))
+
+                    #---------------------------------------------------------------
+                    head = "CU_ID; Scheduling; StagingInput; Allocating; Executing; StagingOutput; Done; Cycle; Step;"
+                    f.write("{row}\n".format(row=head))
+                
+                    for cycle in cu_performance_data:
+                        for step in cu_performance_data[cycle].keys():
+                            for cid in cu_performance_data[cycle][step].keys():
+                                cu = cu_performance_data[cycle][step][cid]
+                                st_data = {}
+                                for st in cu.state_history:
+                                    st_dict = st.as_dict()
+                                    st_data["{0}".format( st_dict["state"] )] = {}
+                                    st_data["{0}".format( st_dict["state"] )] = st_dict["timestamp"]
+
+                                #print st_data
+                                #start = step_performance_data[cycle][step]['step_start_time_abs']
+                                if 'StagingOutput' not in st_data:
+                                    st_data['StagingOutput'] = st_data['Executing']
+
+                                if 'Done' not in st_data:
+                                    st_data['Done'] = st_data['Executing']
+
+                                row = "{uid}; {Scheduling}; {StagingInput}; {Allocating}; {Executing}; {StagingOutput}; {Done}; {Cycle}; {Step}".format(
+                                    uid=cu.uid,
+                                    Scheduling=(st_data['Scheduling']),
+                                    StagingInput=(st_data['StagingInput']),
+                                    Allocating=(st_data['Allocating']),
+                                    Executing=(st_data['Executing']),
+                                    StagingOutput=(st_data['StagingOutput']),
+                                    Done=(st_data['Done']),
+                                    Cycle=cycle,
+                                    Step=step)
+                            
+                                f.write("{r}\n".format(r=row))
 
         except KeyboardInterrupt:
             traceback.print_exc()
@@ -431,4 +430,3 @@ class Plugin(PluginBase):
         self.get_logger().info("Replica Exchange simulation finished successfully!")
         self.get_logger().info("Deallocating resource.")
         resource.deallocate()
-
