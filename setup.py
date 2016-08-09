@@ -207,6 +207,7 @@ setup_args = {
 	# It needs the MANIFEST.in entries to work.
 	'data_files'        : [
 									makeDataFiles('share/radical.ensemblemd/examples/', 'examples'),
+									makeDataFiles('share/radical.ensemblemd/examples/md_example', 'examples/md_example'),
 									makeDataFiles('share/radical.ensemblemd/user_guide/scripts', 'doc/user_guide/scripts')
 						  ],
 }
