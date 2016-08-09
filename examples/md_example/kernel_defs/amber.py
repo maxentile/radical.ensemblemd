@@ -52,8 +52,8 @@ _KERNEL_INFO = {
         "ncsa.bw_local":
         {
             "environment"   : {},
-            "pre_exec" : ["module use --append /projects/sciteam/gkd/modules","module load openmpi","source /projects/sciteam/gkd/virtenvs/mpi4py/20151210_OMPI20151210-DYN/bin/activate","export PATH=$PATH:/projects/sciteam/gkd/amber/bin"],
-            "executable" : ["sander"],
+            "pre_exec" : ["module use --append /projects/sciteam/gkd/modules","module load openmpi","module load amber"],
+            "executable" : ["pmemd.MPI"],
             "uses_mpi"   : True
         }            
     }
@@ -118,7 +118,7 @@ class kernel_amber(KernelBase):
         self._executable  = cfg["executable"]
         self._arguments   = arguments
         self._environment = cfg["environment"]
-        self._uses_mpi    = False
+        self._uses_mpi    = cfg["uses_mpi"]
         self._pre_exec    = cfg["pre_exec"] 
 
 # ------------------------------------------------------------------------------

@@ -72,7 +72,7 @@ class Extasy_CocoAmber_Static(SimulationAnalysisLoop):
 		k1.link_input_data = ['$SHARED/{0}'.format(os.path.basename(Kconfig.minimization_input_file)),
 							 '$SHARED/{0}'.format(os.path.basename(Kconfig.top_file)),
 							 '$SHARED/{0}'.format(os.path.basename(Kconfig.initial_crd_file))]
-		k1.cores=1
+		k1.cores=Kconfig.num_cores_per_sim_cu
 		if((iteration-1)==0):
 			#k1.link_input_data = k1.link_input_data + ['$SHARED/{0} > min1.crd'.format(os.path.basename(Kconfig.initial_crd_file))]
 			k1.link_input_data = k1.link_input_data + ['$SHARED/{0} > min1.rst7'.format(os.path.basename(Kconfig.initial_crd_file))]
@@ -103,7 +103,7 @@ class Extasy_CocoAmber_Static(SimulationAnalysisLoop):
 			#k2.download_output_data = ['md{0}.ncdf > output/iter{0}/md_{0}_{1}.ncdf'.format(iteration,instance)]
 			k2.download_output_data = ['md{0}.nc > output/iter{0}/md_{0}_{1}.nc'.format(iteration,instance)]
 
-		k2.cores = 1
+		k2.cores = Kconfig.num_cores_per_sim_cu
 		return [k1,k2]
 
 

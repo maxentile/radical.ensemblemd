@@ -1,7 +1,3 @@
-#-------------------------Applications----------------------
-simulator                = 'Amber'          # Simulator to be loaded
-analyzer                 = 'CoCo'           # Analyzer to be loaded
-
 #-------------------------General---------------------------
 num_iterations          = 2                 # Number of iterations of Simulation-Analysis
 start_iter              = 0                 # Iteration number with which to start
