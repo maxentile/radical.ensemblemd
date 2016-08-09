@@ -1,0 +1,37 @@
+{
+	"local.localhost" : {
+				"project"  : null,
+				"queue"    : null,
+				"schema"   : "local",
+				"cores": 2
+			},
+
+	"xsede.stampede" : {
+            "project"  : "TG-MCB090174",
+            "queue"    : "development",
+            "schema"   : "ssh",
+            "cores"    : 16
+        },
+
+	"xsede.comet"  : {
+            "project"  : "TG-MCB090174",
+            "queue"    : "compute",
+            "schema"   : "ssh",
+            "cores"    : 64
+	},
+
+	"ncsa.bw_local" : {
+            "project"  : null,
+            "queue"    : null,
+            "schema"   : null,
+            "cores"    : 64
+	},
+
+	"ncsa.bw" : {
+            "project"  : "gkd",
+            "queue"    : "debug",
+            "schema"   : "gsissh",
+            "cores"    : 64
+        }
+
+}

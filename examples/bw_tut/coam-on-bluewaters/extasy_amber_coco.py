@@ -9,7 +9,7 @@ __use_case_name__ = "Amber + CoCo' simulation-analysis (ExTASY)."
 from radical.ensemblemd import Kernel
 from radical.ensemblemd import EnsemblemdError
 from radical.ensemblemd import SimulationAnalysisLoop
-from radical.ensemblemd import SingleClusterEnvironment
+from radical.ensemblemd import ResourceHandle
 from radical.ensemblemd.engine import get_engine
 import imp
 import argparse
@@ -135,7 +135,7 @@ class Extasy_CocoAmber_Static(SimulationAnalysisLoop):
 					   #"--output=pdbs",
 					   "--output=coco.rst7",
 					   "--atom_selection={0}".format(Kconfig.atom_selection)]
-		k1.cores = min(Kconfig.num_CUs,RPconfig.PILOTSIZE)
+		k1.cores = 32
 		k1.uses_mpi = True
 
 		#k1.link_input_data = ['$SHARED/{0}'.format(os.path.basename(Kconfig.top_file))]
@@ -174,35 +174,34 @@ class Extasy_CocoAmber_Static(SimulationAnalysisLoop):
 if __name__ == "__main__":
 
 	try:
+		resource = 'ncsa.bw_local'
 
 		parser = argparse.ArgumentParser()
-		parser.add_argument('--RPconfig', help='link to Radical Pilot related configurations file')
 		parser.add_argument('--Kconfig', help='link to Kernel configurations file')
 
 		args = parser.parse_args()
 
-		if args.RPconfig is None:
-			parser.error('Please enter a RP configuration file')
-			sys.exit(1)
 		if args.Kconfig is None:
 			parser.error('Please enter a Kernel configuration file')
 			sys.exit(0)
 
-		RPconfig = imp.load_source('RPconfig', args.RPconfig)
 		Kconfig = imp.load_source('Kconfig', args.Kconfig)
+
+		with open('%s/config.json'%os.path.dirname(os.path.abspath(__file__))) as data_file:    
+			config = json.load(data_file)
 
 		# Create a new static execution context with one resource and a fixed
 		# number of cores and runtime.
 
-		cluster = SingleClusterEnvironment(
-			resource=RPconfig.REMOTE_HOST,
-			cores=RPconfig.PILOTSIZE,
-			walltime=RPconfig.WALLTIME,
-			username = RPconfig.UNAME, #username
-			project = RPconfig.ALLOCATION, #project
-			queue = RPconfig.QUEUE,
-			database_url = RPconfig.DBURL,
-			access_schema = 'gsissh'      # This is so to support different access methods - gsissh, ssh - remove this if always running using ssh
+		cluster = ResourceHandle(
+			rresource=resource,
+			cores=config[resource]["cores"],
+			walltime=15,
+
+			project=config[resource]['project'],
+			access_schema = config[resource]['schema'],
+			queue = config[resource]['queue'],
+			database_url = "mongodb://h2ologin3:27017/rp"
 		)
 
 		cluster.shared_data = [

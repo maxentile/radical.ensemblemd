@@ -68,14 +68,8 @@ class CharCount(EoP):
 #
 if __name__ == "__main__":
 
-	# use the resource specified as argument, fall back to localhost
-	if   len(sys.argv)  > 2: 
-		print 'Usage:\t%s [resource]\n\n' % sys.argv[0]
-		sys.exit(1)
-	elif len(sys.argv) == 2: 
-		resource = sys.argv[1]
-	else: 
-		resource = 'ncsa.bw_local'
+
+	resource = 'ncsa.bw_local'
 
 	try:
 
