@@ -95,7 +95,7 @@ if __name__ == "__main__":
 
 		# We set both the the simulation and the analysis stage 'instances' to 16.
 		# If they
-		mssa = MSSA(iterations=4, simulation_instances=16, analysis_instances=1)
+		mssa = MSSA(iterations=2, simulation_instances=32, analysis_instances=1)
 
 		cluster.run(mssa)
 

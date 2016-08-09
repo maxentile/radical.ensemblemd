@@ -108,7 +108,7 @@ if __name__ == "__main__":
 
 		# We set the simulation 'instances' to 16 and analysis 'instances' to 1. We set the adaptive
 		# simulation to True.
-		mssa = MSSA(iterations=2, simulation_instances=16, analysis_instances=1, adaptive_simulation=True)
+		mssa = MSSA(iterations=2, simulation_instances=32, analysis_instances=1, adaptive_simulation=True)
 
 		cluster.run(mssa)
 

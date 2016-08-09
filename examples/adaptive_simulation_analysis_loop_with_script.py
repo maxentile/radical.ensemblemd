@@ -111,7 +111,7 @@ if __name__ == "__main__":
 		# We set the simulation 'instances' to 16 and analysis 'instances' to 1. We set the adaptive
 		# simulation to True and specify the simulation extraction script to be used.
 		cur_path = os.path.dirname(os.path.abspath(__file__))
-		mssa = MSSA(iterations=2, simulation_instances=16, analysis_instances=1, adaptive_simulation=True, sim_extraction_script='{0}/extract.py'.format(cur_path))
+		mssa = MSSA(iterations=2, simulation_instances=32, analysis_instances=1, adaptive_simulation=True, sim_extraction_script='{0}/extract.py'.format(cur_path))
 
 		cluster.run(mssa)
 
