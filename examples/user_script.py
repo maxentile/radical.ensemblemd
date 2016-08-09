@@ -48,7 +48,7 @@ if __name__ == "__main__":
 	elif len(sys.argv) == 2: 
 		resource = sys.argv[1]
 	else: 
-		resource = 'local.localhost'
+		resource = 'ncsa.bw_local'
 
 	try:
 

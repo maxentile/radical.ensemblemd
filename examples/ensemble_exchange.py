@@ -207,7 +207,7 @@ if __name__ == "__main__":
 	elif len(sys.argv) == 2: 
 		resource = sys.argv[1]
 	else: 
-		resource = 'local.localhost'
+		resource = 'ncsa.bw_local'
 
 	try:
 		with open('%s/config.json'%os.path.dirname(os.path.abspath(__file__))) as data_file:    
