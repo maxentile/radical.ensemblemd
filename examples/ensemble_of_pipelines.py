@@ -69,9 +69,17 @@ class CharCount(EoP):
 if __name__ == "__main__":
 
 
-	resource = 'ncsa.bw_local'
-
 	try:
+
+		# use the resource specified as argument, fall back to localhost
+		if   len(sys.argv)  > 2: 
+			print 'Usage:\t%s [resource]\n\n' % sys.argv[0]
+			sys.exit(1)
+		elif len(sys.argv) == 2: 
+			resource = sys.argv[1]
+		else: 
+			resource = 'ncsa.bw_local'
+
 
 		with open('%s/config.json'%os.path.dirname(os.path.abspath(__file__))) as data_file:    
 			config = json.load(data_file)
@@ -87,7 +95,7 @@ if __name__ == "__main__":
 				project=config[resource]['project'],
 				access_schema = config[resource]['schema'],
 				queue = config[resource]['queue'],
-				database_url='mongodb://rp:rp@ds015335.mlab.com:15335/rp',
+				database_url='mongodb://h2ologin3:27017/git',
 			)
 
 		# Allocate the resources. 

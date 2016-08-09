@@ -115,7 +115,7 @@ if __name__ == "__main__":
 				project=config[resource]['project'],
 				access_schema = config[resource]['schema'],
 				queue = config[resource]['queue'],
-				database_url='mongodb://rp:rp@ds015335.mlab.com:15335/rp',
+				database_url='mongodb://h2ologin3:27017/git',
 			)
 
 		# Allocate the resources. 

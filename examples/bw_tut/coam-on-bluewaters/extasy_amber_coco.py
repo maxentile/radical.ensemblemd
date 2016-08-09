@@ -194,14 +194,14 @@ if __name__ == "__main__":
 		# number of cores and runtime.
 
 		cluster = ResourceHandle(
-			rresource=resource,
+			resource=resource,
 			cores=config[resource]["cores"],
 			walltime=15,
 
 			project=config[resource]['project'],
 			access_schema = config[resource]['schema'],
 			queue = config[resource]['queue'],
-			database_url = "mongodb://h2ologin3:27017/rp"
+			database_url = "mongodb://h2ologin3:27017/git"
 		)
 
 		cluster.shared_data = [
