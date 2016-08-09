@@ -136,7 +136,7 @@ def isbad(name):
 def isgood(name):
 	""" Whether name should be installed """
 	if not isbad(name):
-		if name.endswith('.py') or name.endswith('.json'):
+		if name.endswith(('.py','.json','.wcfg','.crd','.top','.in','.pdb'):
 			return True
 	return False
 
