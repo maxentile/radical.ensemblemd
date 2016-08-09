@@ -48,22 +48,8 @@ _KERNEL_INFO = {
                     },
     "machine_configs": 
     {
-        "xsede.stampede":
-        {
-                "environment" : {},
-                "pre_exec"    : ["module load TACC", "module load intel/13.0.2.146", "module load mvapich2/1.9a2", "module load amber/12.0"],
-                "executable"  : ["/opt/apps/intel13/mvapich2_1_9/amber/12.0/bin/sander"],
-                "uses_mpi"    : False
-        },
-        "epsrc.archer":
-        {
-            "environment" : {},
-            "pre_exec" : ["module load packages-archer","module load amber"],
-            "executable" : ["pmemd"],
-            "uses_mpi"   : True
-        },
 
-        "ncsa.bw":
+        "ncsa.bw_local":
         {
             "environment"   : {},
             "pre_exec" : ["module use --append /projects/sciteam/gkd/modules","module load openmpi","source /projects/sciteam/gkd/virtenvs/mpi4py/20151210_OMPI20151210-DYN/bin/activate","export PATH=$PATH:/projects/sciteam/gkd/amber/bin"],

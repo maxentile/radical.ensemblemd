@@ -63,45 +63,9 @@ _KERNEL_INFO = {
                     },
     "machine_configs": 
     {
-        "*": {
-            "environment"   : {"FOO": "bar"},
-            "pre_exec"      : [],
-            "executable"    : "pyCoCo",
-            "uses_mpi"      : True
-        },
 
-        "xsede.stampede":
-        {
-            "environment" : {},
-            "pre_exec" : [  
-                            "module load TACC",
-                            "module load intel/13.0.2.146",
-                            "module load python/2.7.9",
-                            "module load netcdf/4.3.2",
-                            "module load hdf5/1.8.13",
-                            #"export PYTHONPATH=/opt/apps/intel13/mvapich2_1_9/python/2.7.9/lib/python2.7/site-packages:/work/02998/ardi/coco_installation/lib/python2.7/site-packages:$PYTHONPATH",
-                            "export PYTHONPATH=/opt/apps/intel13/mvapich2_1_9/python/2.7.9/lib/python2.7/site-packages:/work/02998/ardi/coco-0.26_installation/lib/python2.7/site-packages:$PYTHONPATH",
-                            #"export PATH=/work/02998/ardi/coco_installation/bin:$PATH"],
-                            "export PATH=/work/02998/ardi/coco-0.26_installation/bin:$PATH"],
-            "executable" : ["pyCoCo"],
-            "uses_mpi"   : True    
-        },
 
-        "epsrc.archer":
-        {
-            "environment" : {},
-            "pre_exec" : [
-                            "module load python-compute/2.7.6",
-                            "module load pc-numpy",
-                            "module load pc-scipy",
-                            "module load pc-coco",
-                            "module load pc-netcdf4-python"
-                            ],
-            "executable" : ["pyCoCo"],
-            "uses_mpi"   : True
-        },
-
-        "ncsa.bw":
+        "ncsa.bw_local":
         {
             "environment"   : {"FOO": "bar"},
             "pre_exec"      : [
