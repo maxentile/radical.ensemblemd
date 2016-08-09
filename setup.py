@@ -208,6 +208,8 @@ setup_args = {
 	'data_files'        : [
 									makeDataFiles('share/radical.ensemblemd/examples/', 'examples'),
 									makeDataFiles('share/radical.ensemblemd/examples/md_example', 'examples/md_example'),
+									makeDataFiles('share/radical.ensemblemd/examples/md_example/inp_files', 'examples/md_example/inp_files'),
+									makeDataFiles('share/radical.ensemblemd/examples/md_example/kernel_defs', 'examples/md_example/kernel_defs'),
 									makeDataFiles('share/radical.ensemblemd/user_guide/scripts', 'doc/user_guide/scripts')
 						  ],
 }
