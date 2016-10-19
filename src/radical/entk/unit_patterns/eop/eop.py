@@ -241,7 +241,7 @@ class EoP(ExecutionPattern):
 		
 		try:
 			if iteration == None:
-				iteration = self._cur_iteration
+				iteration = self._cur_iteration[task-1]
 
 			if monitor!=None:
 				return self._pattern_dict["iter_{0}".format(iteration)]["stage_{0}".format(stage)]["monitor_1"]["output"]
@@ -262,7 +262,7 @@ class EoP(ExecutionPattern):
 
 		try:
 			if iteration == None:
-				iteration = self._cur_iteration
+				iteration = self._cur_iteration[task-1]
 
 			if monitor == None:
 				directory = self._pattern_dict["iter_{0}".format(iteration)]["stage_{0}".format(stage)]["instance_{0}".format(task)]["path"]

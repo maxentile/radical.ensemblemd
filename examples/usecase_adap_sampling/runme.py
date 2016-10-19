@@ -10,7 +10,7 @@ from sleep import sleep_kernel
 
 ENSEMBLE_SIZE=2
 INPUT_PAR_Q = [20 for x in range(1, ENSEMBLE_SIZE+1)]
-ITER = [1 for x in range(1, ENSEMBLE_SIZE+1)]
+ITER = [1 for x in range(1, ENSEMBLE_SIZE+2)]
 
 class Test(EoP):
 
@@ -56,23 +56,25 @@ class Test(EoP):
 
 		if instance <= ENSEMBLE_SIZE:
 			ITER[instance-1] += 1
+			self.set_next_stage(stage=1)
 
 		else:
 			flag = self.get_output(stage=1, task=ENSEMBLE_SIZE+1)
 			print 'Output of analysis in stage 1 = {0}'.format(flag)
+			self.set_next_stage(stage=1)
 
 
 
 if __name__ == '__main__':
 
 	# Create pattern object with desired ensemble size, pipeline size
-	pipe = Test(ensemble_size=ENSEMBLE_SIZE+1, pipeline_size=2)
+	pipe = Test(ensemble_size=ENSEMBLE_SIZE+1, pipeline_size=1)
 
 	# Create an application manager
 	app = AppManager(name='Adap_sampling')
 
 	# Register kernels to be used
-	app.register_kernels(echo_kernel)
+	app.register_kernels(rand_kernel)
 	app.register_kernels(sleep_kernel)
 
 	# Add workload to the application manager
