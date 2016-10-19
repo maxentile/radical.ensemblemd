@@ -68,3 +68,10 @@ I have added comments to the source code for explanations. Please create an issu
 
 ## Moving towards real example
 
+* This would require compiling/building any of the simulation, analysis tools on the remote machine of interest.
+
+* Some testing and configuration might be required for any new machine or local clusters/grids.
+
+* We replace the "kernel plugins" for the toy kernels in this example with those for real kernels (e.g. gromacs, pyemma, etc.). This would mainly involve deciding the parameters to assign and specifying the executing environment (environment variables, modules to be loaded, etc).
+
+* Once we can validate results for a small example, we can then work with larger scales.
