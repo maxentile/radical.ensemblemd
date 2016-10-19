@@ -16,6 +16,9 @@ thus an if-else condition. The analysis task is periodically executed (notice th
 and looks for output data from our "simulation" tasks, namely output.txt. It also produces 
 a value to update the parameter queue (INPUT_PAR_Q). This value is used by the "simulation"
 task in its next iteration.
+
+This example executes on localhost but can be extended to run on remote machine by specifying
+the details in the resource handle.
 '''
 
 from radical.entk import EoP, AppManager, Kernel, ResourceHandle
