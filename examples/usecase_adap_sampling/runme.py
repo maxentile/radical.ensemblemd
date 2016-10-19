@@ -10,9 +10,7 @@ from sleep import sleep_kernel
 
 ENSEMBLE_SIZE=2
 INPUT_PAR_Q = [20 for x in range(1, ENSEMBLE_SIZE+1)]
-
-def find_tasks(filename):
-	pass
+ITER = [1 for x in range(1, ENSEMBLE_SIZE+1)]
 
 class Test(EoP):
 
@@ -37,41 +35,33 @@ class Test(EoP):
 			#k1.copy_output_data = []
 			#k1.download_output_data = []
 
-			m1 = Kernel(name="randval", ktype="monitor")
-			m1.timeout = 20
-			m1.arguments = ["--upperlimit=","--text=monitor"]
-			m1.copy_input_data = ['$STAGE_1_TASK_2/output.txt']
-			m1.download_output_data = ['output.txt']
+			return k1
 
-			return [k1,m1]
+		else:
+
+			m1 = Kernel(name="randval")
+			m1.arguments = ["--upperlimit=20"]
+
+			m1.copy_input_data = []
+
+			for inst in range(1, ENSEMBLE_SIZE+1):
+
+				m1.copy_input_data += ['$ITER_{0}_STAGE_1_TASK_{1}/output.txt'.format(ITER[instance-1],inst)]
+
+			return m1
 
 
 	def branch_1(self, instance):
 
 
-		# Get the output of the second task of the first stage
-		flag = self.get_output(stage=1, task=2)
-		print 'Output of stage 1 = {0}'.format(flag)
+		if instance <= ENSEMBLE_SIZE:
+			ITER[instance-1] += 1
 
-		# Transfer "output.txt" file from second task of first stage and rename to "kern_data.txt"
-		self.get_file(stage=1, task=2, filename="output.txt", new_name="kern_data.txt")
-		f = open('kern_data.txt','r')
-		print f.read()
-
-		# Transfer "output.txt" file from monitor of first stage and rename to "monitor_data.txt"
-		self.get_file(stage=1, monitor=True, filename='output.txt', new_name='monitor_data.txt')
-		f = open('monitor_data.txt','r')
-		print f.read()
-
-		# Based on a value, one may set the next stage of the workflow. Restart by setting it to 1
-		''' 
-		if int(flag) >= 3:
-			self.set_next_stage(1)
-			print 'Restarting workflow'
 		else:
-			pass
-		'''
-	
+			flag = self.get_output(stage=1, task=ENSEMBLE_SIZE+1)
+			print 'Output of analysis in stage 1 = {0}'.format(flag)
+
+
 
 if __name__ == '__main__':
 
@@ -79,7 +69,7 @@ if __name__ == '__main__':
 	pipe = Test(ensemble_size=ENSEMBLE_SIZE+1, pipeline_size=2)
 
 	# Create an application manager
-	app = AppManager(name='MSM')
+	app = AppManager(name='Adap_sampling')
 
 	# Register kernels to be used
 	app.register_kernels(echo_kernel)

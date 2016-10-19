@@ -237,21 +237,53 @@ class EoP(ExecutionPattern):
 			raise
 
 
-	def get_output(self, stage, instance):
+	def get_output(self, stage, task=None, monitor=None, iteration=None):
+		
 		try:
-			return self._pattern_dict["iter_{0}".format(self._cur_iteration[instance-1])]["stage_{0}".format(stage)]["instance_{0}".format(instance)]["output"]
+			if iteration == None:
+				iteration = self._cur_iteration
+
+			if monitor!=None:
+				return self._pattern_dict["iter_{0}".format(iteration)]["stage_{0}".format(stage)]["monitor_1"]["output"]
+
+			return self._pattern_dict["iter_{0}".format(iteration)]["stage_{0}".format(stage)]["instance_{0}".format(task)]["output"]
+
 		except Exception, ex:
-			self._logger.error("Could not get output of stage: {0}, instance: {1}".format(stage, instance))
+
+			if monitor==None:
+				self._logger.error("Could not get output of stage: {0}, instance: {1}".format(stage, task))
+			else:
+				self._logger.error("Could not get output of stage: {0}, monitor".format(stage))
+
 			raise
 
 
-	def get_file(self, stage, instance, filename, new_name=None):
-		directory = self._pattern_dict["iter_{0}".format(self._cur_iteration[instance-1])]["stage_{0}".format(stage)]["instance_{0}".format(instance)]["path"]
-		file_url = directory + '/' + filename
+	def get_file(self, stage, filename, task=None, monitor=None, new_name=None, iteration=None):
 
-		import saga,os
-		remote_file = saga.filesystem.Directory(directory, session = self._session_id)
-		if new_name is None:
-			remote_file.copy(filename, os.getcwd())
-		else:
-			remote_file.copy(filename, os.getcwd() + '/' + new_name)
+		try:
+			if iteration == None:
+				iteration = self._cur_iteration
+
+			if monitor == None:
+				directory = self._pattern_dict["iter_{0}".format(iteration)]["stage_{0}".format(stage)]["instance_{0}".format(task)]["path"]
+			else:
+				directory = self._pattern_dict["iter_{0}".format(iteration)]["stage_{0}".format(stage)]["monitor_1"]["path"]
+
+			file_url = directory + '/' + filename
+
+			import saga,os
+			remote_file = saga.filesystem.Directory(directory, session = self._session_id)
+
+			if new_name is None:
+				remote_file.copy(filename, os.getcwd())
+			else:
+				remote_file.copy(filename, os.getcwd() + '/' + new_name)
+
+		except Exception, ex:
+
+			if monitor==None:
+				self._logger.error("Could not get file of stage: {0}, instance: {1}, error: {2}".format(stage, task, ex))
+			else:
+				self._logger.error("Could not get file of stage: {0}, monitor, error: {1}".format(stage, ex))
+
+			raise
