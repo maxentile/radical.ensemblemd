@@ -44,7 +44,7 @@ pip install .
 
 ## Description of toy example
 
-With reference to the [workflow diagram](), the understanding is to have multiple independent simulation pipelines and an analysis task that at certain intervals (or some other trigger) operates on the data produced by the simulations to generate a new set of starting parameters. These starting parameters are updated in a queue and picked up by the simulations in their next iterations.
+With reference to the [workflow diagram](https://github.com/markovmodel/adaptive-sampling/blob/master/resources/figs/adaptive_sampling_scheme.pdf), the understanding is to have multiple independent simulation pipelines and an analysis task that at certain intervals (or some other trigger) operates on the data produced by the simulations to generate a new set of starting parameters. These starting parameters are updated in a queue and picked up by the simulations in their next iterations.
 
 The queue either contains new starting parameters or if they are not ready, contains the old starting parameters. Therefore, the simulations do not wait for the analysis task to complete.
 
