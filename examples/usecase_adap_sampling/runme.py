@@ -7,10 +7,20 @@ from radical.entk import EoP, AppManager, Kernel, ResourceHandle
 from echo import echo_kernel
 from randval import rand_kernel
 from sleep import sleep_kernel
+from time import sleep
 
 ENSEMBLE_SIZE=2
 INPUT_PAR_Q = [20 for x in range(1, ENSEMBLE_SIZE+1)]
 ITER = [1 for x in range(1, ENSEMBLE_SIZE+2)]
+
+def push_val(val):
+
+	global INPUT_PAR_Q
+
+	for i in range(0, len(INPUT_PAR_Q)-1):
+		INPUT_PAR_Q[i] = INPUT_PAR_Q[i+1]
+
+	INPUT_PAR_Q[len(INPUT_PAR_Q)-1] = val
 
 class Test(EoP):
 
@@ -39,6 +49,11 @@ class Test(EoP):
 
 		else:
 
+			# Emulating some more analysis time
+			sleep(min(INPUT_PAR_Q))
+
+
+			# Analysis kernel produces a random integer to push into INPUT_PAR_Q
 			m1 = Kernel(name="randval")
 			m1.arguments = ["--upperlimit=20"]
 
@@ -53,15 +68,22 @@ class Test(EoP):
 
 	def branch_1(self, instance):
 
-
-		if instance <= ENSEMBLE_SIZE:
+		# Run each pipeline for a max of 5 iterations
+		if ITER[instance-1] != 5:
+			self.set_next_stage(stage=1)
 			ITER[instance-1] += 1
-			self.set_next_stage(stage=1)
-
 		else:
-			flag = self.get_output(stage=1, task=ENSEMBLE_SIZE+1)
-			print 'Output of analysis in stage 1 = {0}'.format(flag)
-			self.set_next_stage(stage=1)
+			pass
+
+		# Extraction of analysis kernel output
+		if instance==ENSEMBLE_SIZE+1:
+
+			# Get output of analysis kernel
+			new_par = self.get_output(stage=1, task=ENSEMBLE_SIZE+1)
+			print 'Output of analysis in stage 1 = {0}'.format(new_par)
+
+			# Push new value into INPUT_PAR_Q
+			push_val(int(new_par))
 
 
 
